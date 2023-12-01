@@ -81,6 +81,7 @@ public class Console {
                 break;
 
             case "rmuser":
+                processManager.removeUser(tokens);
                 break;
 
             case "lsuser":

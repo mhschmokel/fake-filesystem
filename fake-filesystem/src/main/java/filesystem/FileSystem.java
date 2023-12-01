@@ -86,6 +86,12 @@ public class FileSystem {
     }
 
     public void addUser(String name) {
+        for (User u : this.users) {
+            if (u.getName().equals(name)) {
+                System.out.println("User " + name + " already exists");
+                return;
+            }
+        }
         User user = new User(name);
         this.users.add(user);
     }
@@ -177,6 +183,8 @@ public class FileSystem {
 
         if (user != null) {
             this.users.remove(user);
+        } else {
+            System.out.println("Usuário não encontrado");
         }
 
     }

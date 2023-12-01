@@ -70,15 +70,43 @@ public class Directory extends Inode {
     }
 
     public List<String> getSubfolders() {
-        List<String> subfolders = new ArrayList<>(directSubdirectories.keySet());
-        subfolders.addAll(indirectSubdirectories.keySet());
+        List<String> subfolders = new ArrayList<>();
+
+        Map<String, Inode> allSubfolders = new HashMap<>();
+        allSubfolders.putAll(directSubdirectories);
+        allSubfolders.putAll(indirectSubdirectories);
+
+        for (Map.Entry<String, Inode> entry : allSubfolders.entrySet()) {
+            String header = entry.getValue().getHeaderInline();
+            String name = entry.getKey();
+            String line = header + name;
+            subfolders.add(line);
+        }
+
         return subfolders;
+//        List<String> subfolders = new ArrayList<>(directSubdirectories.keySet());
+//        subfolders.addAll(indirectSubdirectories.keySet());
+//        return subfolders;
     }
 
     public List<String> getFiles() {
-        List<String> files = new ArrayList<>(directFiles.keySet());
-        files.addAll(indirectFiles.keySet());
-        return  files;
+        List<String> files = new ArrayList<>();
+
+        Map<String, Inode> allFiles = new HashMap<>();
+        allFiles.putAll(directFiles);
+        allFiles.putAll(indirectFiles);
+
+        for (Map.Entry<String, Inode> entry : allFiles.entrySet()) {
+            String header = entry.getValue().getHeaderInline();
+            String name = entry.getKey();
+            String line = header + name;
+            files.add(line);
+        }
+
+        return files;
+//        List<String> files = new ArrayList<>(directFiles.keySet());
+//        files.addAll(indirectFiles.keySet());
+//        return  files;
     }
 
     public boolean isEmpty() {
@@ -122,5 +150,12 @@ public class Directory extends Inode {
 
     public boolean containsFile(String filename) {
         return this.directFiles.containsKey(filename) || this.indirectFiles.containsKey(filename);
+    }
+
+    @Override
+    public String toString() {
+        String result = "";
+
+        return result;
     }
 }

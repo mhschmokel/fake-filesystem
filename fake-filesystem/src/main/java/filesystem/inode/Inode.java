@@ -37,6 +37,10 @@ public class Inode {
         this.otherPermission = new String[]{read, write, execute};
     }
 
+    public String getHeaderInline() {
+        return this.inodeHeader.getHeaderInline() + getPermissionsString() + ";";
+    }
+
     public String getPermissionsString() {
         return this.fileTypeIndicator
                 + String.join("", this.ownerPermission)

@@ -36,6 +36,24 @@ public class InodeHeader {
         this.fileSize = size;
     }
 
+    public String getHeaderInline() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        StringBuilder fileHeader = new StringBuilder()
+                .append(this.ownerUuid)
+                .append(";")
+                .append(this.creationDate.format(formatter))
+                .append(";")
+                .append(this.lastAccessDate.format(formatter))
+                .append(";")
+                .append(this.lastChangeDate.format(formatter))
+                .append(";")
+                .append(this.getFileSize())
+                .append(";");
+
+        return fileHeader.toString();
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");

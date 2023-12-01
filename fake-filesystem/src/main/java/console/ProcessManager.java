@@ -387,6 +387,7 @@ public class ProcessManager {
         }
 
         String username = args[1];
+        Main.fileSystem.removeUser(username);
     }
 
     public void grantCurrentUserAdminPrivileges() {
