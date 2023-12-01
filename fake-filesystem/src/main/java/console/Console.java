@@ -57,6 +57,7 @@ public class Console {
                 break;
 
             case "chmod":
+                processManager.changeFilePermissions(tokens);
                 break;
 
             case "mkdir":

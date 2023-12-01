@@ -12,7 +12,7 @@ public class File extends Inode{
     private int availableDirectBlocks = 10;
     private final List<Block> indirectBlocks = new ArrayList<>();
     public File(InodeHeader inodeHeader) {
-        super(inodeHeader);
+        super(inodeHeader, '-');
     }
 
     public void addBlock(Block block) {
@@ -33,6 +33,19 @@ public class File extends Inode{
     public void updateAccess() {
         this.inodeHeader.updateLastAccessDate();
         this.inodeHeader.updateLastChangeDate();
+        this.updateSize(getSize());
+    }
+
+    private int getSize() {
+        List<Block> allBlocks = new ArrayList<>();
+        allBlocks.addAll(this.directBlocks);
+        allBlocks.addAll(this.indirectBlocks);
+
+        int size = 0;
+        for (Block b : allBlocks) {
+            size += b.getData().length();
+        }
+        return size;
     }
 
     public String getData() {
@@ -51,11 +64,16 @@ public class File extends Inode{
     @Override
     public String toString() {
         String fileHeader = this.inodeHeader.toString();
+        String filePermissions = this.getPermissionsString();
         String fileData = "\n\n== File Content ==\n";
         String fileContent = getData();
 
         StringBuilder allContent = new StringBuilder()
                 .append(fileHeader)
+                .append("\nPermissions: ")
+                .append(filePermissions)
+                .append("\nSize (bytes): ")
+                .append(this.inodeHeader.getFileSize())
                 .append(fileData)
                 .append(fileContent);
 

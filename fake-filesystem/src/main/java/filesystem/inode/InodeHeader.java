@@ -13,7 +13,7 @@ public class InodeHeader {
     private LocalDateTime lastChangeDate;
     private LocalDateTime lastAccessDate;
     private final LocalDateTime creationDate;
-    private double fileSize;
+    private int fileSize;
 
     public InodeHeader(UUID ownerUuid, LocalDateTime creationDate) {
         this.ownerUuid = ownerUuid;
@@ -21,7 +21,7 @@ public class InodeHeader {
         this.lastChangeDate = this.creationDate;
         this.lastAccessDate = this.creationDate;
 
-        this.fileSize = 1.0;
+        this.fileSize = 1;
     }
 
     public void updateLastChangeDate() {
@@ -32,8 +32,8 @@ public class InodeHeader {
         this.lastAccessDate = LocalDateTime.now();
     }
 
-    public void updateFileSize(double fileSize) {
-        this.fileSize = fileSize;
+    public void updateSize(int size) {
+        this.fileSize = size;
     }
 
     @Override

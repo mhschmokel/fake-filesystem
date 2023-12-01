@@ -312,6 +312,83 @@ public class ProcessManager {
         }
     }
 
+    public void changeFilePermissions(String[] args) {
+        if (args.length < 3) {
+            System.out.println("Missing args");
+            return;
+        }
+
+        String code = args[1];
+        String fullPath = args[2];
+        String[] path = fullPath.split("/");
+        String filename = path[path.length-1];
+
+        String[] pathToGetInode = {"", fullPath};
+
+        Directory fileDir = getFileDirectory(pathToGetInode);
+
+        if (fileDir != null) {
+            File file = fileDir.getFile(filename);
+
+            if (file != null) {
+                String[] permissions = getPermissionsByCode(Integer.parseInt(code.substring(0,1)));
+                file.changeOwnerPermission(permissions[0], permissions[1], permissions[2]);
+
+                permissions = getPermissionsByCode(Integer.parseInt(code.substring(1,2)));
+                file.changeGroupPermission(permissions[0], permissions[1], permissions[2]);
+
+                permissions = getPermissionsByCode(Integer.parseInt(code.substring(2,3)));
+                file.changeOtherPermission(permissions[0], permissions[1], permissions[2]);
+            } else {
+                System.out.println("File not found");
+            }
+            return;
+        }
+
+        Directory directory = getDirByPath(pathToGetInode);
+        if (directory != null) {
+            String[] permissions = getPermissionsByCode(Integer.parseInt(code.substring(0,1)));
+            directory.changeOwnerPermission(permissions[0], permissions[1], permissions[2]);
+
+            permissions = getPermissionsByCode(Integer.parseInt(code.substring(1,2)));
+            directory.changeGroupPermission(permissions[0], permissions[1], permissions[2]);
+
+            permissions = getPermissionsByCode(Integer.parseInt(code.substring(2,3)));
+            directory.changeOtherPermission(permissions[0], permissions[1], permissions[2]);
+        }
+
+    }
+
+    private String[] getPermissionsByCode(int code) {
+        switch (code) {
+            case 0:
+                return new String[]{"-", "-", "-"};
+            case 1:
+                return new String[]{"-", "-", "x"};
+            case 2:
+                return new String[]{"-", "w", "-"};
+            case 4:
+                return new String[]{"r", "-", "-"};
+            case 5:
+                return new String[]{"r", "-", "x"};
+            case 6:
+                return new String[]{"r", "w", "-"};
+            case 7:
+                return new String[]{"r", "w", "x"};
+            default:
+                return new String[]{"r", "w", "x"};
+        }
+    }
+
+    public void removeUser(String[] args) {
+        if (args.length < 2) {
+            System.out.println("Missing args");
+            return;
+        }
+
+        String username = args[1];
+    }
+
     public void grantCurrentUserAdminPrivileges() {
         Main.fileSystem.getCurrentUser().grantAdminPrivileges();
     }

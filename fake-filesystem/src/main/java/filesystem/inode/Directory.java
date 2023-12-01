@@ -19,7 +19,7 @@ public class Directory extends Inode {
     private final Directory fatherInode;
 
     public Directory(InodeHeader inodeHeader, Block associatedBlock, Directory fatherInode) {
-        super(inodeHeader);
+        super(inodeHeader, 'd');
         this.associatedBlock = associatedBlock;
         this.fatherInode = fatherInode;
     }

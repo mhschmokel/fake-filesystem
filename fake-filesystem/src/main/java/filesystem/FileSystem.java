@@ -165,6 +165,22 @@ public class FileSystem {
         }
     }
 
+    public void removeUser(String username) {
+        User user = null;
+
+        for (User u : this.users) {
+            if (u.getName().equals(username)) {
+                user = u;
+                break;
+            }
+        }
+
+        if (user != null) {
+            this.users.remove(user);
+        }
+
+    }
+
     @Override
     public String toString() {
         return this.currentUser.toString() + ":" + currentPath + "$ ";
